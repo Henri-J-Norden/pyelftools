@@ -143,7 +143,23 @@ class TypeDesc(object):
         # const->reference->const->int = const const int &
         # const->reference->int = const int &
         name = str(self.name)
+        mods = list(self.modifiers)
+
+        if self.dimensions:
+            dims = "".join('[%s]' % (str(dim) if dim > 0 else '',)
+                for dim in self.dimensions)
+        else:
+            dims = ''
+
+        try:
+            i = mods.index("pointer")
+            mods[i] = name + " *"
+        except ValueError:  # pointer not in mods
+            mods.append(name)
+
+        return " ".join(mods) + dims
         mods = self.modifiers
+
 
         parts = []
         # Initial const applies to the var ifself, other consts apply to the pointee
