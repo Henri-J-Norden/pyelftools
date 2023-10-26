@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - bin-volatile
   pull_request:
     branches:
       - master
